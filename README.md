@@ -1,68 +1,43 @@
-# DAA Assignment 1 — Divide and Conquer
+# Assignment 1 — Divide and Conquer (DAA)
 
-Java 17 Maven project: MergeSort (single helper buffer + insertion cutoff), QuickSort (random pivot, 3-way partition, bounded depth), and QuickSelect, with instance-level `Metrics`, JUnit 5 tests, and a CSV benchmark.
+Java 17 / Maven project for Assignment 1 (Design and Analysis of Algorithms). It contains implementations of MergeSort, QuickSort, and QuickSelect, along with performance metrics, JUnit 5 tests, and benchmarks.
 
-## Build
+## What's Included
 
-```bash
-mvn -q test-compile
-```
+* **MergeSort** — Single allocated helper buffer with an InsertionSort cutoff for small sub-arrays ($n \le 15$).
+* **QuickSort** — 3-way partitioning, random pivot selection, and recursion depth bounding.
+* **QuickSelect** — Finding the k-th smallest element in linear time.
+* **Metrics** — Tracks execution time, comparisons, and recursion depth.
+* **JUnit 5 Tests** — Correctness tests and recursion depth checks.
+* **Benchmark & CSV** — Runs algorithms on array sizes from $1,000$ to $1,000,000$ and exports median results to `results.csv`.
 
-Requires **JDK 17+** and **Maven 3.9+**. If `java` is not on your PATH:
+---
 
-```bash
-export JAVA_HOME="$(/usr/libexec/java_home 2>/dev/null || echo /opt/homebrew/opt/openjdk/libexec/openjdk.jdk/Contents/Home)"
-```
+## How to Run
 
-## Tests
-
+### 1. Run Unit Tests
 ```bash
 mvn test
 ```
 
-Covered:
-
-- MergeSort / QuickSort vs `Arrays.sort` on 120 random arrays plus empty, singleton, all-equal, sorted, and reverse-sorted inputs
-- QuickSort recursion depth on a **sorted** array of 100,000 elements: `maxDepth <= 2 * log2(n)`
-- QuickSelect vs `sorted[k]` on 120 random arrays, plus invalid `k` / empty array (`IllegalArgumentException`)
-
-## Benchmark
-
-Writes `results.csv` with columns `algorithm,input,n,time_ms,comparisons,max_depth`.
-
-Sizes: `1000, 10000, 100000, 1000000`. Inputs: `random`, `sorted`, `duplicates` (values in `0..9`). Each cell is the **median of 5 runs**.
-
+### 2. Run Benchmarks
+Gathers performance metrics and writes results to results.csv:
 ```bash
-mvn -q exec:java
-# or
-mvn -q exec:java -Dexec.args=results.csv
+mvn exec:java -Dexec.mainClass="daa.assignment1.benchmark.Benchmark"
 ```
 
-A full run (including `n = 1_000_000`) takes a few minutes.
-
-## Plots
-
+### 3. Generate Plots 
+To generate PNG charts from the CSV data (requires Python 3 and matplotlib):
 ```bash
-python3 -m pip install matplotlib
 python3 generate_plots.py
 ```
 
-PNG files are written to `plots/`:
-
-- `time_vs_n.png`
-- `depth_vs_n.png`
-- `ratio_vs_n.png`
-
-## Layout
-
+### Project Structure
 ```
-src/main/java/daa/assignment1/
-  algorithms/   MergeSort, QuickSort, QuickSelect, InsertionSort, Partition
-  metrics/      Metrics
-  benchmark/    Benchmark, CsvExporter
-src/test/java/daa/assignment1/
+src/
+main/java/daa/assignment1/
+algorithms/    # MergeSort, QuickSort, QuickSelect, InsertionSort, Partition
+metrics/       # Metrics class for tracking time and steps
+benchmark/     # Benchmarking code and CSV exporter
+test/java/       # Tests for algorithm correctness and edge cases
 ```
-
-## Git
-
-Working history lives on `main` (tag **`v1.0`**), merged from `feature/metrics`, `feature/mergesort`, `feature/quicksort`, `feature/select`, and `feature/benchmark`.
