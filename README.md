@@ -1,5 +1,7 @@
 # Assignment 1 — Divide and Conquer (DAA)
 
+https://github.com/DaniyarKZNursultan/daa-assignment1
+
 Java 17 / Maven project for Assignment 1 (Design and Analysis of Algorithms). It contains implementations of MergeSort, QuickSort, and QuickSelect, along with performance metrics, JUnit 5 tests, and benchmarks.
 
 ## What's Included
